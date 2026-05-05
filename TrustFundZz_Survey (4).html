@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFundZz — User Research Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --navy:#0d2137;
+  --navy2:#1b3a5c;
+  --teal:#0f7b6c;
+  --teal2:#17a896;
+  --gold:#c8943f;
+  --gold2:#e8b86d;
+  --cream:#f5f1eb;
+  --cream2:#ede7dc;
+  --white:#ffffff;
+  --text:#1a1a1a;
+  --muted:#6b6258;
+  --border:#d5cdc2;
+  --danger:#b83232;
+  --success:#0f7b6c;
+  --r:10px;
+  --r-sm:6px;
+}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+
+/* HEADER */
+.hdr{background:var(--navy);position:relative;overflow:hidden}
+.hdr-glow1{position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(15,123,108,.3) 0%,transparent 65%);pointer-events:none}
+.hdr-glow2{position:absolute;bottom:-80px;left:5%;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(200,148,63,.15) 0%,transparent 65%);pointer-events:none}
+.hdr-inner{max-width:780px;margin:0 auto;padding:52px 24px 44px;position:relative;z-index:1}
+.hdr-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(200,148,63,.15);border:1px solid rgba(200,148,63,.3);border-radius:100px;padding:5px 16px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold2);font-weight:500;margin-bottom:22px}
+.hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hdr h1{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,50px);color:var(--white);line-height:1.1;margin-bottom:14px;letter-spacing:-.3px}
+.hdr h1 em{font-style:italic;color:var(--teal2)}
+.hdr-sub{color:rgba(255,255,255,.55);font-size:14px;font-weight:300;max-width:500px;margin-bottom:28px}
+.hdr-meta{display:flex;flex-wrap:wrap;gap:20px;font-size:12px;color:rgba(255,255,255,.4)}
+.hdr-meta span{display:flex;align-items:center;gap:5px}
+
+/* PROGRESS */
+.prog-track{height:3px;background:var(--navy2)}
+.prog-fill{height:3px;background:linear-gradient(90deg,var(--teal2),var(--gold));transition:width .5s cubic-bezier(.4,0,.2,1);position:relative}
+.prog-fill::after{content:'';position:absolute;right:-1px;top:-3px;width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(200,148,63,.6)}
+
+/* MAIN */
+.main{max-width:780px;margin:0 auto;padding:40px 24px 80px}
+
+/* SECTION PILLS */
+.sec-nav{display:flex;gap:6px;margin-bottom:32px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.sec-nav::-webkit-scrollbar{display:none}
+.sec-pill{flex-shrink:0;padding:5px 14px;border-radius:100px;font-size:11px;font-weight:500;border:1px solid var(--border);background:var(--white);color:var(--muted);transition:all .2s;white-space:nowrap}
+.sec-pill.active{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.sec-pill.done{background:var(--teal);color:var(--white);border-color:var(--teal)}
+
+/* SECTION HEADER */
+.sec-hdr{margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.sec-eyebrow{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);font-weight:500;margin-bottom:8px}
+.sec-hdr h2{font-family:'Playfair Display',serif;font-size:26px;color:var(--navy);line-height:1.2}
+
+/* CARDS */
+.qcard{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:14px;transition:box-shadow .2s,border-color .2s}
+.qcard:focus-within{box-shadow:0 0 0 3px rgba(15,123,108,.1);border-color:var(--teal)}
+.qnum{font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:8px}
+.qtext{font-size:15px;font-weight:500;color:var(--navy);margin-bottom:6px;line-height:1.45}
+.qhint{font-size:12px;color:var(--muted);margin-bottom:14px;font-style:italic}
+
+/* OPTIONS */
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);cursor:pointer;transition:all .15s;background:var(--cream);user-select:none}
+.opt:hover{border-color:var(--teal2);background:#f0faf9}
+.opt.sel{border-color:var(--teal);background:#e8f6f4}
+.opt input{display:none}
+.opt-box{width:18px;height:18px;min-width:18px;border:1.5px solid var(--border);border-radius:4px;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--white);font-size:11px;color:transparent}
+.opt.sel .opt-box{background:var(--teal);border-color:var(--teal);color:white}
+.opt-box.circ{border-radius:50%}
+.opt.sel .opt-box.circ{background:var(--teal);border-color:var(--teal)}
+.opt.sel .opt-box.circ::after{content:'';display:block;width:8px;height:8px;border-radius:50%;background:white}
+.opt-txt{font-size:14px;line-height:1.4;color:var(--text)}
+
+/* TEXTAREA */
+textarea{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:14px;line-height:1.6;color:var(--text);background:var(--cream);resize:vertical;min-height:90px;transition:border-color .2s;outline:none}
+textarea:focus{border-color:var(--teal);background:var(--white)}
+textarea::placeholder{color:#b0a898}
+
+/* SCALE TABLE */
+.scale-wrap{overflow-x:auto;margin-top:8px}
+.stbl{width:100%;border-collapse:collapse;min-width:460px;font-size:13px}
+.stbl thead th{background:var(--navy);color:rgba(255,255,255,.75);padding:8px 6px;text-align:center;font-weight:400;font-size:10px;letter-spacing:.3px}
+.stbl thead th:first-child{text-align:left;padding-left:12px;width:44%}
+.stbl tbody td{padding:9px 6px;text-align:center;border-bottom:1px solid var(--cream2);vertical-align:middle}
+.stbl tbody td:first-child{text-align:left;padding-left:12px;font-size:13px;color:var(--text);line-height:1.4}
+.stbl tbody tr:last-child td{border-bottom:none}
+.stbl tbody tr:nth-child(odd) td{background:rgba(245,241,235,.5)}
+.stbl input[type=radio]{accent-color:var(--teal);width:16px;height:16px;cursor:pointer}
+
+/* CONCEPT BOX */
+.concept{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.concept-hdr{background:var(--navy);padding:13px 20px;display:flex;align-items:center;gap:10px}
+.concept-hdr span{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:500}
+.c-dot{width:8px;height:8px;border-radius:50%;background:var(--teal2)}
+.concept-body{background:var(--white);padding:20px;font-size:14px;line-height:1.7;color:var(--text)}
+.concept-body strong{font-weight:500;color:var(--navy)}
+.c-tag{display:inline-flex;align-items:center;gap:5px;margin-top:14px;padding:4px 12px;background:rgba(15,123,108,.07);border:1px solid rgba(15,123,108,.18);border-radius:100px;font-size:11px;color:var(--teal);font-style:italic}
+
+/* NAV */
+.nav-bar{display:flex;align-items:center;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border);flex-wrap:wrap}
+.btn{padding:12px 24px;border-radius:var(--r-sm);font-family:'Outfit',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .18s;border:1.5px solid transparent;display:inline-flex;align-items:center;gap:8px;line-height:1}
+.btn-primary{background:var(--navy);color:var(--white);border-color:var(--navy)}
+.btn-primary:hover{background:var(--navy2)}
+.btn-primary:active{transform:scale(.98)}
+.btn-ghost{background:transparent;color:var(--navy);border-color:var(--border)}
+.btn-ghost:hover{border-color:var(--navy);background:var(--cream)}
+.btn-sm{padding:8px 16px;font-size:12px}
+.btn-danger{background:transparent;color:var(--danger);border-color:rgba(184,50,50,.25);font-size:13px;padding:8px 16px}
+.btn-danger:hover{background:rgba(184,50,50,.05)}
+.btn:disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+.step-info{margin-left:auto;font-size:12px;color:var(--muted)}
+
+/* SPINNER */
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:var(--r-sm);font-size:13px;font-weight:400;transform:translateY(12px);opacity:0;transition:all .3s cubic-bezier(.4,0,.2,1);pointer-events:none;z-index:9999;display:flex;align-items:center;gap:8px;max-width:300px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-ok{background:var(--teal);color:white}
+.toast-err{background:var(--danger);color:white}
+.toast-info{background:var(--navy);color:white}
+
+/* THANK YOU */
+.ty-wrap{text-align:center;padding:64px 20px}
+.ty-icon{width:72px;height:72px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;box-shadow:0 8px 32px rgba(15,123,108,.3)}
+.ty-wrap h2{font-family:'Playfair Display',serif;font-size:34px;color:var(--navy);margin-bottom:12px}
+.ty-wrap p{font-size:15px;color:var(--muted);max-width:420px;margin:0 auto 28px;font-weight:300}
+.ty-count{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:rgba(15,123,108,.08);border:1px solid rgba(15,123,108,.2);border-radius:100px;font-size:13px;color:var(--teal);font-weight:500;margin-bottom:28px}
+.ty-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* RESULTS */
+.res-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.res-hdr h2{font-family:'Playfair Display',serif;font-size:28px;color:var(--navy)}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;text-align:center}
+.stat-n{font-family:'Playfair Display',serif;font-size:34px;color:var(--navy);line-height:1}
+.stat-l{font-size:10px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;margin-top:4px}
+.rtabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px;gap:0}
+.rtab{padding:10px 20px;font-size:13px;font-weight:500;cursor:pointer;color:var(--muted);border:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;background:none;font-family:'Outfit',sans-serif}
+.rtab.act{color:var(--navy);border-bottom-color:var(--navy)}
+.rtab:hover{color:var(--navy)}
+.rsec{margin-bottom:32px}
+.rsec-title{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.rq-title{font-size:14px;font-weight:500;color:var(--navy);margin-bottom:10px}
+.rq-block{margin-bottom:20px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.bar-lbl{font-size:12px;color:var(--text);line-height:1.3;flex:0 0 42%}
+.bar-track{flex:1;height:13px;background:var(--cream2);border-radius:7px;overflow:hidden}
+.bar-fill{height:100%;background:var(--teal);border-radius:7px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.bar-pct{font-size:11px;color:var(--muted);min-width:32px;text-align:right}
+.sc-row{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.sc-stmt{font-size:12px;color:var(--text);flex:1;line-height:1.3}
+.sc-track{width:110px;min-width:110px;height:7px;background:var(--cream2);border-radius:4px;overflow:hidden}
+.sc-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:4px;transition:width .7s}
+.sc-val{font-size:12px;color:var(--muted);min-width:26px;text-align:right;font-weight:500}
+.open-r{background:var(--cream);border-left:3px solid var(--teal2);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 14px;font-size:13px;line-height:1.55;color:var(--text);margin-bottom:8px}
+.open-ts{font-size:10px;color:var(--muted);margin-top:4px}
+.no-data{font-size:13px;color:var(--muted);font-style:italic}
+.hidden{display:none!important}
+@media(max-width:500px){.stat-grid{grid-template-columns:repeat(2,1fr)}.bar-lbl{flex:0 0 36%;font-size:11px}.sc-track{width:70px;min-width:70px}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-glow1"></div>
+  <div class="hdr-glow2"></div>
+  <div class="hdr-inner">
+    <div class="hdr-pill"><div class="hdr-dot"></div>Live research</div>
+    <h1>TrustFundZz<br><em>User Validation Survey</em></h1>
+    <p class="hdr-sub">Help shape the future of social savings. Your feedback goes directly to the founding team.</p>
+    <div class="hdr-meta">
+      <span><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>8–12 minutes</span>
+      <span><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 7h6M5 10h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>29 questions</span>
+      <span><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M2 14c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Anonymous</span>
+    </div>
+  </div>
+  <div class="prog-track"><div class="prog-fill" id="pbar" style="width:0%"></div></div>
+</header>
+
+<main class="main">
+  <div id="vsurvey"></div>
+  <div id="vthanks" class="hidden"></div>
+  <div id="vresults" class="hidden"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+"use strict";
+
+// ── DATA ─────────────────────────────────────────────────────────────────────
+var SECS=[
+ {id:"A",title:"Demographic profile",qs:[
+  {id:"q1",t:"single",text:"What is your age range?",opts:["Under 18","18–22","23–27","28–35","36 or above"]},
+  {id:"q2",t:"single",text:"What is your current status?",opts:["International student","Domestic student","Early-career professional (0–3 yrs)","Freelancer / gig worker","Other"]},
+  {id:"q3",t:"single",text:"Primary country / region of residence?",opts:["Western Europe","Eastern Europe","Sub-Saharan Africa","North Africa / Middle East","North America","Other"]},
+  {id:"q4",t:"single",text:"Primary source of income?",opts:["Monthly family / parental allowance","Part-time employment","Scholarships / grants","Full-time salary","Multiple irregular sources"]}
+ ]},
+ {id:"B",title:"Saving behaviour",qs:[
+  {id:"q5",t:"single",text:"How often do you actively save money?",opts:["Daily","Weekly","Monthly","Irregularly / only when I have leftovers","I do not save at all"]},
+  {id:"q6",t:"multi",hint:"Select all that apply",text:"What are your biggest barriers to saving?",opts:["Rising cost of living / inflation","Irregular or insufficient income","Impulsive / emotional spending","Lack of motivation or accountability","Existing apps feel boring or hard to stick with","No specific savings goal to work toward","Other"]},
+  {id:"q7",t:"multi",hint:"Select all that apply",text:"Which financial tools do you currently use?",opts:["Traditional bank savings account","Budgeting app (e.g. Plum, YNAB, Monzo)","Expense-splitting app (e.g. Splitwise, Tricount)","Payment app (e.g. Cash App, PayPal)","Informal group savings (Ajo, Tontine, Chama, etc.)","None of the above"]},
+  {id:"q8",t:"single",text:"How long do you typically stick with a savings app before abandoning it?",opts:["Less than 1 week","1–4 weeks","1–3 months","4–6 months","I still use the same app consistently"]},
+  {id:"q9",t:"open",text:"What is the main reason you stopped using (or never started) a savings app?"}
+ ]},
+ {id:"C",title:"Social & community finance",qs:[
+  {id:"q10",t:"single",text:"Have you ever participated in a group / community savings scheme (e.g. Ajo, Tontine, Chama)?",opts:["Yes, currently active","Yes, in the past","No, but familiar with the concept","No, never heard of this"]},
+  {id:"q11",t:"multi",hint:"Select up to 2",text:"If yes, what did you value most about it?",opts:["Trust and accountability within the group","Forced discipline — I had to contribute","Social connection and community feeling","Reaching a goal faster together","Nothing — I did not find it useful"]},
+  {id:"q12",t:"single",text:"How comfortable are you sharing saving / spending habits with close friends or family in a private digital space?",opts:["Very comfortable — I already do this","Somewhat comfortable — if private and secure","Neutral","Somewhat uncomfortable","Very uncomfortable"]},
+  {id:"q13",t:"scale",text:"Rate each statement (1 = Strongly Disagree, 5 = Strongly Agree)",rows:["Knowing a friend can see my savings streak motivates me.","I would save more consistently with a group goal.","Positive social pressure helps me avoid unnecessary spending.","I trust close friends / family more than an automated app.","Celebrating small financial wins together is important to me."]}
+ ]},
+ {id:"D",title:"Concept validation",qs:[
+  {id:"qc",t:"concept"},
+  {id:"q14",t:"single",text:"After reading the concept, how likely are you to download TrustFundZz?",opts:["Definitely would download","Probably would download","Unsure","Probably would not download","Definitely would not download"]},
+  {id:"q15",t:"multi",hint:"Select your top 3",text:"Which features appeal to you most?",opts:["Private savings circles with friends / family","Real-time accountability tracking","Gamified challenges, streaks & reward badges","'Approve or Pause' peer spending check-ins","Parental monitoring & spending guidance","AI-powered financial insights","Progress dashboards & group analytics"]},
+  {id:"q16",t:"open",text:"Which feature do you feel is least useful or unnecessary?"},
+  {id:"q17",t:"single",text:"How does TrustFundZz compare to financial apps you currently use?",opts:["Much better — fills a gap nothing else does","Somewhat better — a few unique features stand out","About the same","Somewhat worse — existing apps work fine","Much worse — I do not see the need"]}
+ ]},
+ {id:"E",title:"Pricing & willingness to pay",qs:[
+  {id:"q18",t:"multi",hint:"Select all that apply",text:"What would make you upgrade to Premium (10.99 EUR/month)?",opts:["AI-powered spending insights & personalised tips","Unlimited savings circles (free tier = 2)","Enhanced parental monitoring dashboard","Priority customer support","Exclusive challenges and rewards","Free version is enough for me","Would not pay under any circumstances"]},
+  {id:"q19",t:"single",text:"How much would you pay per month for Premium?",opts:["Nothing","1–3 EUR","4–6 EUR","7–10 EUR","11–15 EUR","More than 15 EUR"]},
+  {id:"q20",t:"single",text:"Would a yearly plan at 120 EUR (saving ~12 EUR vs monthly) influence your decision?",opts:["Yes — I prefer yearly for the discount","Maybe — depends on usefulness first","No — I prefer monthly flexibility","Would not pay regardless of billing cycle"]},
+  {id:"q21",t:"single",text:"Which revenue model feels most fair and transparent?",opts:["Freemium (free + paid premium) — current model","One-time purchase fee","Pay-per-feature","Ad-supported free version","Bank / brand partnership (free to user, funded by partners)"]}
+ ]},
+ {id:"F",title:"Trust, privacy & security",qs:[
+  {id:"q22",t:"single",text:"What is your biggest concern about using a social savings app?",opts:["Privacy — others seeing my financial data","Security — risk of hacking or fraud","Social awkwardness with money conversations","Losing control of my spending decisions","Reliability — app shutting down or losing data","I have no major concerns"]},
+  {id:"q23",t:"scale",text:"Rate your level of trust (1 = No trust, 5 = Complete trust)",rows:["I trust a GDPR / NDPR-compliant fintech startup with my data.","I trust open-banking API links (PSD2) over manually entering card details.","EU incorporation (Ireland / Estonia) increases my trust.","End-to-end encryption of all financial data is sufficient reassurance.","A no-data-selling privacy policy would earn my trust."]},
+  {id:"q24",t:"multi",hint:"Select top 2",text:"What would most increase your trust in TrustFundZz?",opts:["Official EU / African regulatory registration","Partnership with a recognised bank","Independent security audit certificate","Transparent user reviews & app store ratings","Endorsement from a known influencer or community leader","Free trial period or money-back guarantee"]}
+ ]},
+ {id:"G",title:"Marketing & user acquisition",qs:[
+  {id:"q25",t:"multi",hint:"Select all that apply",text:"How do you prefer to discover new apps or financial tools?",opts:["Recommendation from friend / family","TikTok or Instagram Reels","Influencer review or sponsored post","University / campus ambassador programme","App store search","Podcast or YouTube review","News article or blog"]},
+  {id:"q26",t:"single",text:"How likely are you to invite friends if you enjoyed TrustFundZz?",opts:["Very likely — I regularly share apps I love","Likely — if the app truly helped me","Neutral","Unlikely — I rarely recommend apps","Very unlikely — I keep finances private"]},
+  {id:"q27",t:"single",text:"Which slogan resonates most with you?",opts:["Save Together, Not Alone","Your Circle. Your Goals. Your Future.","Turn Community Into Currency","Saving Made Social","None of the above"]},
+  {id:"q28",t:"single",text:"Would you join a university partnership programme (beta tester, campus ambassador) for TrustFundZz?",opts:["Yes — very interested","Possibly — tell me more","No"]}
+ ]},
+ {id:"H",title:"Open feedback",qs:[
+  {id:"q29",t:"open",text:"What one feature or improvement would make you definitely use TrustFundZz?"},
+  {id:"q30",t:"open",text:"Is there anything about the concept that concerns you or could be improved?"},
+  {id:"q31",t:"open",text:"Any final thoughts, suggestions, or questions for the TrustFundZz team?"}
+ ]}
+];
+
+var ALL_QS = SECS.reduce(function(a,s){return a.concat(s.qs);},[]);
+var CLOSED_QS = ALL_QS.filter(function(q){return q.t==="single"||q.t==="multi"||q.t==="scale";});
+
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+var SK="tfz_resp_v3", OK="tfz_open_v3";
+var mem={resp:[],open:{}};
+var hasLS=(function(){try{localStorage.setItem("_t","1");localStorage.removeItem("_t");return true;}catch(e){return false;}})();
+
+function loadResp(){if(!hasLS)return mem.resp;try{return JSON.parse(localStorage.getItem(SK)||"[]");}catch(e){return[];}}
+function saveResp(r){var a=loadResp();a.push(r);if(hasLS){try{localStorage.setItem(SK,JSON.stringify(a));}catch(e){}}else{mem.resp=a;}}
+function loadOpen(){if(!hasLS)return mem.open;try{return JSON.parse(localStorage.getItem(OK)||"{}");}catch(e){return{};}}
+function saveOpen(qid,txt){var a=loadOpen();if(!a[qid])a[qid]=[];a[qid].push({text:txt,ts:Date.now()});if(hasLS){try{localStorage.setItem(OK,JSON.stringify(a));}catch(e){}}else{mem.open=a;}}
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function qnum(id){return ALL_QS.filter(function(q){return q.t!=="concept";}).findIndex(function(q){return q.id===id;})+1;}
+function pct(){
+  var done=CLOSED_QS.filter(function(q){
+    var a=ST.ans[q.id];
+    if(q.t==="single")return a!==undefined;
+    if(q.t==="multi")return Array.isArray(a)&&a.length>0;
+    if(q.t==="scale")return a&&Object.keys(a).length===q.rows.length;
+    return false;
+  }).length;
+  return Math.round(done/CLOSED_QS.length*100);
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+var ST={step:0,ans:{},busy:false,rtab:"charts"};
+
+// ── API SUBMIT ────────────────────────────────────────────────────────────────
+function buildSummary(ans){
+  var lines=[];
+  ALL_QS.forEach(function(q){
+    if(q.t==="concept")return;
+    var a=ans[q.id];
+    if(a===undefined||a===null)return;
+    if(q.t==="single"&&a!==undefined)lines.push(q.id+": "+(q.opts[a]||a));
+    else if(q.t==="multi"&&a&&a.length)lines.push(q.id+": "+a.map(function(i){return q.opts[i];}).join(", "));
+    else if(q.t==="scale"&&a){var v=Object.entries(a).map(function(e){return e[0]+":"+e[1];}).join("; ");lines.push(q.id+": "+v);}
+    else if(q.t==="open"&&a&&String(a).trim())lines.push(q.id+": "+String(a).trim());
+  });
+  return lines.join("\n");
+}
+function apiSubmit(ans){
+  return fetch("https://api.anthropic.com/v1/messages",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      model:"claude-sonnet-4-20250514",
+      max_tokens:64,
+      messages:[{role:"user",content:"TrustFundZz survey response logged. Reply only: ok\n\n"+buildSummary(ans)}]
+    })
+  });
+}
+
+// ── RENDER SURVEY ─────────────────────────────────────────────────────────────
+function renderSurvey(){
+  var sec=SECS[ST.step];
+  var h="";
+
+  // pills
+  h+='<div class="sec-nav">';
+  SECS.forEach(function(s,i){
+    var cls=i===ST.step?"active":i<ST.step?"done":"";
+    h+='<div class="sec-pill '+cls+'">'+s.id+'. '+esc(s.title)+'</div>';
+  });
+  h+='</div>';
+
+  // heading
+  h+='<div class="sec-hdr"><div class="sec-eyebrow">Section '+sec.id+' of '+SECS.length+'</div><h2>'+esc(sec.title)+'</h2></div>';
+
+  // questions
+  sec.qs.forEach(function(q){
+    if(q.t==="concept"){h+=renderConcept();return;}
+    h+='<div class="qcard" id="qc-'+q.id+'">';
+    h+='<div class="qnum">Question '+qnum(q.id)+'</div>';
+    h+='<div class="qtext">'+esc(q.text)+'</div>';
+    if(q.hint)h+='<div class="qhint">'+esc(q.hint)+'</div>';
+    if(q.t==="single"||q.t==="multi")h+=renderOpts(q);
+    if(q.t==="open")h+=renderOpen(q);
+    if(q.t==="scale")h+=renderScale(q);
+    h+='</div>';
+  });
+
+  // nav
+  var isLast=ST.step===SECS.length-1;
+  h+='<div class="nav-bar">';
+  if(ST.step>0)h+='<button class="btn btn-ghost" id="bbk">&#8592; Back</button>';
+  h+='<button class="btn btn-primary" id="bnx"'+(ST.busy?" disabled":"")+'>'+
+    (ST.busy?'<span class="spin"></span> Submitting...':(isLast?'Submit survey &#8594;':'Continue &#8594;'))+
+  '</button>';
+  h+='<span class="step-info">'+(ST.step+1)+' / '+SECS.length+'</span>';
+  h+='<button class="btn btn-ghost btn-sm" id="bvr" style="margin-left:auto">View results</button>';
+  h+='</div>';
+
+  document.getElementById("vsurvey").innerHTML=h;
+
+  var bnx=document.getElementById("bnx");
+  var bbk=document.getElementById("bbk");
+  var bvr=document.getElementById("bvr");
+  if(bnx)bnx.onclick=doNext;
+  if(bbk)bbk.onclick=function(){ST.step--;renderSurvey();window.scrollTo(0,0);};
+  if(bvr)bvr.onclick=showResults;
+
+  document.getElementById("pbar").style.width=pct()+"%";
+}
+
+function renderConcept(){
+  return '<div class="concept">'+
+    '<div class="concept-hdr"><div class="c-dot"></div><span>Concept overview — please read before continuing</span></div>'+
+    '<div class="concept-body">'+
+    '<strong>TrustFundZz</strong> is a free mobile app (iOS & Android) where you create a private <em>savings circle</em> with friends or family. '+
+    'Members set a shared goal, track each other\'s contributions in real time, earn badges for streaks, and can gently <em>"pause"</em> each other from impulsive spending.<br><br>'+
+    'A <strong>Premium tier (10.99 EUR/month or 120 EUR/year)</strong> unlocks AI-powered financial insights, unlimited circles, and advanced parental monitoring tools.'+
+    '<div class="c-tag">Inspired by the Nigerian Ajo system — community saving powered by trust</div>'+
+    '</div></div>';
+}
+
+function renderOpts(q){
+  var sel=ST.ans[q.id];
+  if(q.t==="multi"&&!Array.isArray(sel))sel=[];
+  var h='<div class="opts">';
+  q.opts.forEach(function(o,i){
+    var checked=q.t==="single"?sel===i:(sel||[]).indexOf(i)>=0;
+    h+='<label class="opt'+(checked?" sel":"")+'" onclick="tog(\''+q.id+'\','+i+',\''+q.t+'\')">';
+    h+='<input type="'+(q.t==="single"?"radio":"checkbox")+'"'+(checked?" checked":"")+' >';
+    if(q.t==="single"){
+      h+='<div class="opt-box circ">'+(checked?'<span style="display:block;width:8px;height:8px;border-radius:50%;background:white;margin:auto"></span>':'')+' </div>';
+    } else {
+      h+='<div class="opt-box">'+(checked?'&#10003;':'')+' </div>';
+    }
+    h+='<span class="opt-txt">'+esc(o)+'</span>';
+    h+='</label>';
+  });
+  h+='</div>';
+  return h;
+}
+
+function renderOpen(q){
+  var val=ST.ans[q.id]||"";
+  return '<textarea id="ta-'+q.id+'" placeholder="Type your answer here..." oninput="setOpen(\''+q.id+'\',this.value)">'+esc(val)+'</textarea>';
+}
+
+function renderScale(q){
+  var ans=ST.ans[q.id]||{};
+  var h='<div class="scale-wrap"><table class="stbl"><thead><tr><th>Statement</th>';
+  [1,2,3,4,5].forEach(function(n){
+    var lbl=["Strongly<br>disagree","Disagree","Neutral","Agree","Strongly<br>agree"][n-1];
+    h+='<th style="font-size:9px">'+n+'<br><span style="opacity:.6">'+lbl+'</span></th>';
+  });
+  h+='</tr></thead><tbody>';
+  q.rows.forEach(function(r,ri){
+    h+='<tr><td>'+esc(r)+'</td>';
+    [1,2,3,4,5].forEach(function(n){
+      h+='<td><input type="radio" name="'+q.id+'-r'+ri+'" value="'+n+'"'+(ans[ri]==n?" checked":"")+' onchange="setSc(\''+q.id+'\','+ri+','+n+')" ></td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table></div>';
+  return h;
+}
+
+// ── EVENTS ────────────────────────────────────────────────────────────────────
+window.tog=function(qid,idx,type){
+  if(type==="single"){ST.ans[qid]=idx;}
+  else{
+    var cur=ST.ans[qid]||[];
+    var pos=cur.indexOf(idx);
+    if(pos>=0)cur.splice(pos,1);else cur.push(idx);
+    ST.ans[qid]=cur.slice();
+  }
+  renderSurvey();
+};
+window.setOpen=function(qid,val){ST.ans[qid]=val;document.getElementById("pbar").style.width=pct()+"%";};
+window.setSc=function(qid,ri,val){if(!ST.ans[qid])ST.ans[qid]={};ST.ans[qid][ri]=val;document.getElementById("pbar").style.width=pct()+"%";};
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function doNext(){
+  var isLast=ST.step===SECS.length-1;
+  if(!isLast){ST.step++;renderSurvey();window.scrollTo(0,0);return;}
+  doSubmit();
+}
+
+function doSubmit(){
+  ST.busy=true;
+  renderSurvey();
+
+  // save open answers
+  ALL_QS.forEach(function(q){
+    if(q.t==="open"){
+      var v=String(ST.ans[q.id]||"").trim();
+      if(v)saveOpen(q.id,v);
+    }
+  });
+
+  // save record locally — this ALWAYS succeeds
+  var rec={ans:Object.assign({},ST.ans),ts:Date.now(),id:Math.random().toString(36).slice(2,10)};
+  saveResp(rec);
+
+  // fire API — best effort, non-blocking
+  apiSubmit(ST.ans).catch(function(){/* silent fail — local save is already done */});
+
+  ST.busy=false;
+  showThanks();
+  toast("Response submitted!","ok");
+}
+
+// ── VIEWS ─────────────────────────────────────────────────────────────────────
+function showThanks(){
+  hide("vsurvey");hide("vresults");show("vthanks");
+  var n=loadResp().length;
+  document.getElementById("vthanks").innerHTML=
+    '<div class="ty-wrap">'+
+    '<div class="ty-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'+
+    '<h2>Thank you!</h2>'+
+    '<div class="ty-count">'+n+' response'+(n!==1?'s':'')+' collected so far</div>'+
+    '<p>Your feedback has been recorded and will directly shape TrustFundZz\'s product, pricing, and go-to-market strategy.</p>'+
+    '<div class="ty-btns">'+
+      '<button class="btn btn-primary" onclick="showResults()">View live results</button>'+
+      '<button class="btn btn-ghost" onclick="resetSurvey()">Take survey again</button>'+
+    '</div></div>';
+  window.scrollTo(0,0);
+}
+
+function showResults(){
+  hide("vsurvey");hide("vthanks");show("vresults");
+  renderResults();
+  window.scrollTo(0,0);
+}
+window.showResults=showResults;
+
+function resetSurvey(){
+  ST={step:0,ans:{},busy:false,rtab:"charts"};
+  hide("vthanks");hide("vresults");show("vsurvey");
+  renderSurvey();window.scrollTo(0,0);
+}
+window.resetSurvey=resetSurvey;
+
+function backSurvey(){
+  hide("vthanks");hide("vresults");show("vsurvey");
+}
+window.backSurvey=backSurvey;
+
+// ── RESULTS ───────────────────────────────────────────────────────────────────
+function renderResults(){
+  var rs=loadResp(), oa=loadOpen(), n=rs.length;
+  var el=document.getElementById("vresults");
+  var h='<div class="res-hdr"><h2>Survey Results</h2><div style="display:flex;gap:10px;flex-wrap:wrap">'+
+    '<button class="btn btn-ghost btn-sm" onclick="doExport()">Export CSV</button>'+
+    '<button class="btn btn-ghost btn-sm" onclick="backSurvey()">&#8592; Back to survey</button>'+
+    '</div></div>';
+
+  if(!n){
+    el.innerHTML=h+'<div class="qcard" style="text-align:center;padding:48px 20px">'+
+      '<div style="font-size:42px;margin-bottom:16px">&#128202;</div>'+
+      '<div style="font-size:17px;font-weight:500;color:var(--navy);margin-bottom:8px">No responses yet</div>'+
+      '<div style="font-size:13px;color:var(--muted)">Share this file to start collecting data.</div>'+
+      '</div>';
+    return;
+  }
+
+  h+='<div class="stat-grid">'+
+    sc(n,"Total responses")+
+    sc(rs.filter(function(r){return Object.keys(r.ans||{}).length>=18;}).length,"Completed")+
+    sc(pct()+"%","Your progress")+
+  '</div>';
+
+  h+='<div class="rtabs">'+
+    '<button class="rtab'+(ST.rtab==="charts"?" act":"")+'" onclick="switchRt(\'charts\')">Charts</button>'+
+    '<button class="rtab'+(ST.rtab==="open"?" act":"")+'" onclick="switchRt(\'open\')">Open answers</button>'+
+    '<button class="rtab'+(ST.rtab==="raw"?" act":"")+'" onclick="switchRt(\'raw\')">All responses ('+n+')</button>'+
+  '</div>';
+
+  // charts
+  h+='<div id="rt-charts"'+(ST.rtab!=="charts"?' style="display:none"':'')+'>'; 
+  SECS.forEach(function(sec){
+    var cqs=sec.qs.filter(function(q){return q.t==="single"||q.t==="multi"||q.t==="scale";});
+    if(!cqs.length)return;
+    h+='<div class="rsec"><div class="rsec-title">Section '+sec.id+' — '+esc(sec.title)+'</div>';
+    cqs.forEach(function(q){
+      h+='<div class="rq-block"><div class="rq-title">Q'+qnum(q.id)+': '+esc(q.text)+'</div>';
+      if(q.t==="scale"){
+        q.rows.forEach(function(r,ri){
+          var avg=scAvg(rs,q.id,ri);
+          h+='<div class="sc-row"><div class="sc-stmt">'+esc(r)+'</div><div class="sc-track"><div class="sc-fill" style="width:'+(avg/5*100).toFixed(1)+'%"></div></div><div class="sc-val">'+avg.toFixed(1)+'</div></div>';
+        });
+      } else {
+        q.opts.forEach(function(o,i){
+          var cnt=rs.filter(function(r){var a=r.ans[q.id];return Array.isArray(a)?a.indexOf(i)>=0:a===i;}).length;
+          var p=Math.round(cnt/n*100);
+          h+='<div class="bar-row"><div class="bar-lbl">'+esc(o)+'</div><div class="bar-track"><div class="bar-fill" style="width:'+p+'%"></div></div><div class="bar-pct">'+p+'%</div></div>';
+        });
+      }
+      h+='</div>';
+    });
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // open answers
+  h+='<div id="rt-open"'+(ST.rtab!=="open"?' style="display:none"':'')+'>'; 
+  ALL_QS.filter(function(q){return q.t==="open";}).forEach(function(q){
+    var ans=(oa[q.id]||[]).filter(function(a){return a.text&&a.text.trim();});
+    h+='<div class="rsec"><div class="rsec-title">Q'+qnum(q.id)+': '+esc(q.text)+'</div>';
+    if(!ans.length){h+='<div class="no-data">No answers yet.</div>';}
+    else{ans.slice().reverse().slice(0,30).forEach(function(a){
+      var d=new Date(a.ts);
+      h+='<div class="open-r">'+esc(a.text)+'<div class="open-ts">'+d.toLocaleDateString(undefined,{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})+'</div></div>';
+    });}
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // raw
+  h+='<div id="rt-raw"'+(ST.rtab!=="raw"?' style="display:none"':'')+'>'; 
+  rs.slice().reverse().slice(0,50).forEach(function(r){
+    var lines=[];
+    ALL_QS.forEach(function(q){
+      if(q.t==="concept")return;
+      var a=r.ans[q.id];
+      if(a===undefined||a===null)return;
+      if(q.t==="single"&&a!==undefined)lines.push("<strong>Q"+qnum(q.id)+"</strong>: "+esc(q.opts[a]||""));
+      else if(q.t==="multi"&&a&&a.length)lines.push("<strong>Q"+qnum(q.id)+"</strong>: "+esc(a.map(function(i){return q.opts[i];}).join(", ")));
+      else if(q.t==="scale"&&a){var avg=Object.values(a).map(Number).reduce(function(s,v){return s+v;},0)/Object.values(a).length;lines.push("<strong>Q"+qnum(q.id)+"</strong>: avg "+avg.toFixed(1));}
+      else if(q.t==="open"&&a&&String(a).trim())lines.push("<strong>Q"+qnum(q.id)+"</strong>: "+esc(String(a).substring(0,100))+(String(a).length>100?"...":""));
+    });
+    h+='<div class="qcard" style="margin-bottom:12px">'+
+      '<div class="qnum">'+new Date(r.ts||0).toLocaleString()+' &nbsp;·&nbsp; ID: '+(r.id||"—")+'</div>'+
+      '<div style="font-size:13px;color:var(--muted);line-height:1.7">'+lines.join("<br>")+'</div>'+
+      '</div>';
+  });
+  if(rs.length>50)h+='<div class="no-data">Showing 50 most recent. Export CSV for full dataset.</div>';
+  h+='</div>';
+
+  h+='<div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:12px">'+
+    '<button class="btn btn-danger" onclick="clearAll()">Clear all data</button>'+
+    '<span style="font-size:11px;color:var(--muted)">Cannot be undone.</span>'+
+    '</div>';
+
+  el.innerHTML=h;
+}
+
+function sc(n,l){return '<div class="stat-card"><div class="stat-n">'+n+'</div><div class="stat-l">'+l+'</div></div>';}
+function scAvg(rs,qid,ri){
+  var vals=rs.map(function(r){var a=r.ans[qid];return a&&a[ri]!==undefined?Number(a[ri]):null;}).filter(function(v){return v!==null;});
+  return vals.length?vals.reduce(function(s,v){return s+v;},0)/vals.length:0;
+}
+
+window.switchRt=function(tab){
+  ST.rtab=tab;
+  ["charts","open","raw"].forEach(function(t){
+    var el=document.getElementById("rt-"+t);
+    if(el)el.style.display=t===tab?"":"none";
+  });
+  document.querySelectorAll(".rtab").forEach(function(b,i){
+    b.classList.toggle("act",["charts","open","raw"][i]===tab);
+  });
+};
+
+// ── EXPORT CSV ────────────────────────────────────────────────────────────────
+window.doExport=function(){
+  var rs=loadResp();
+  if(!rs.length){toast("No data to export","err");return;}
+  var qs=ALL_QS.filter(function(q){return q.t!=="concept";});
+  var hdr=["timestamp","response_id"].concat(qs.map(function(q){return "Q"+qnum(q.id)+"_"+q.id;})).join(",");
+  var rows=rs.map(function(r){
+    var ts=new Date(r.ts||0).toISOString();
+    var id=r.id||"";
+    var vals=qs.map(function(q){
+      var a=r.ans[q.id];
+      if(a===undefined||a===null)return "";
+      if(q.t==="single")return '"'+String(q.opts[a]||"").replace(/"/g,'""')+'"';
+      if(q.t==="multi")return '"'+a.map(function(i){return q.opts[i];}).join("; ").replace(/"/g,'""')+'"';
+      if(q.t==="scale")return '"'+Object.entries(a).map(function(e){return e[0]+":"+e[1];}).join("; ")+'"';
+      if(q.t==="open")return '"'+String(a||"").replace(/"/g,'""')+'"';
+      return "";
+    });
+    return [ts,id].concat(vals).join(",");
+  });
+  var csv=[hdr].concat(rows).join("\r\n");
+  var blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement("a");
+  a.href=url;a.download="trustfundzz_results_"+new Date().toISOString().slice(0,10)+".csv";
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+  toast("CSV exported!","ok");
+};
+
+window.clearAll=function(){
+  if(!confirm("Delete ALL survey responses? This cannot be undone."))return;
+  try{localStorage.removeItem(SK);localStorage.removeItem(OK);}catch(e){}
+  mem={resp:[],open:{}};
+  toast("All data cleared","info");
+  renderResults();
+};
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+var toastTimer;
+function toast(msg,type){
+  var el=document.getElementById("toast");
+  el.textContent=msg;
+  el.className="toast show toast-"+(type||"info");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){el.classList.remove("show");},3000);
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function show(id){document.getElementById(id).classList.remove("hidden");}
+function hide(id){document.getElementById(id).classList.add("hidden");}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+function boot(){
+  var el=document.getElementById("vsurvey");
+  if(el){renderSurvey();}
+  else{setTimeout(boot,50);}
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",boot);
+} else {
+  boot();
+}
+
+})();
+</script>
+</body>
+</html>
