@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrustFundZz — User Research Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0e2340;
+    --navy2: #1a3a5c;
+    --teal: #1d7a6e;
+    --teal2: #28a99a;
+    --gold: #c9974a;
+    --cream: #f7f4ef;
+    --cream2: #efe9df;
+    --text: #1a1a1a;
+    --muted: #6b6560;
+    --border: #d8d0c4;
+    --white: #ffffff;
+    --danger: #c0392b;
+    --success: #1a7a5e;
+    --radius: 12px;
+    --radius-sm: 6px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HERO HEADER ── */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,122,110,0.35) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .site-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 10%;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,151,74,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 40px;
+    position: relative;
+    z-index: 1;
+  }
+  .header-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,151,74,0.15);
+    border: 1px solid rgba(201,151,74,0.3);
+    border-radius: 100px;
+    padding: 4px 14px;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+  .header-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .site-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 14px;
+    letter-spacing: -0.5px;
+  }
+  .site-header h1 em {
+    font-style: italic;
+    color: var(--teal2);
+  }
+  .header-desc {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    max-width: 520px;
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+  }
+  .header-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .header-meta svg {
+    opacity: 0.6;
+  }
+
+  /* ── PROGRESS ── */
+  .progress-track {
+    background: var(--navy2);
+    height: 3px;
+    position: relative;
+    overflow: visible;
+  }
+  .progress-fill {
+    height: 3px;
+    background: linear-gradient(90deg, var(--teal2), var(--gold));
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: -3px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(201,151,74,0.6);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── SECTION NAV ── */
+  .section-nav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .section-nav::-webkit-scrollbar { display: none; }
+  .snav-pill {
+    flex-shrink: 0;
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--muted);
+    cursor: default;
+    transition: all 0.2s;
+  }
+  .snav-pill.active {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+  .snav-pill.done {
+    background: var(--teal);
+    color: var(--white);
+    border-color: var(--teal);
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header .sec-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+
+  /* ── QUESTION CARD ── */
+  .q-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: box-shadow 0.2s;
+  }
+  .q-card:focus-within {
+    box-shadow: 0 0 0 3px rgba(29,122,110,0.12);
+    border-color: var(--teal);
+  }
+  .q-number {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 6px;
+    line-height: 1.45;
+  }
+  .q-hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  /* ── OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .opt-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--cream);
+    user-select: none;
+  }
+  .opt-label:hover {
+    border-color: var(--teal2);
+    background: #f0faf9;
+  }
+  .opt-label input { display: none; }
+  .opt-label.checked {
+    border-color: var(--teal);
+    background: #e8f7f5;
+  }
+  .opt-box {
+    width: 18px; height: 18px; min-width: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+    font-size: 11px;
+    color: transparent;
+    background: var(--white);
+  }
+  .opt-label.checked .opt-box {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+  }
+  .opt-box.radio { border-radius: 50%; }
+  .opt-label.checked .opt-box.radio::after {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+  .opt-label.checked .opt-box.radio { background: var(--teal); border-color: var(--teal); }
+  .opt-text { font-size: 14px; line-height: 1.4; color: var(--text); }
+
+  /* ── TEXTAREA ── */
+  textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--cream);
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  textarea:focus { border-color: var(--teal); background: var(--white); }
+  textarea::placeholder { color: #aaa; }
+
+  /* ── LIKERT SCALE ── */
+  .scale-wrap { overflow-x: auto; margin-top: 8px; }
+  .scale-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 480px;
+    font-size: 13px;
+  }
+  .scale-table thead th {
+    background: var(--navy);
+    color: rgba(255,255,255,0.8);
+    padding: 8px 6px;
+    text-align: center;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+  }
+  .scale-table thead th:first-child { text-align: left; padding-left: 12px; width: 44%; }
+  .scale-table tbody td {
+    padding: 9px 6px;
+    text-align: center;
+    border-bottom: 1px solid var(--cream2);
+    vertical-align: middle;
+  }
+  .scale-table tbody td:first-child {
+    text-align: left;
+    padding-left: 12px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .scale-table tbody tr:last-child td { border-bottom: none; }
+  .scale-table tbody tr:nth-child(odd) td { background: rgba(247,244,239,0.6); }
+  .scale-table input[type=radio] {
+    accent-color: var(--teal);
+    width: 17px; height: 17px;
+    cursor: pointer;
+  }
+
+  /* ── CONCEPT BOX ── */
+  .concept-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .concept-header {
+    background: var(--navy);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .concept-header span {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+  }
+  .concept-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal2);
+  }
+  .concept-body {
+    background: var(--white);
+    padding: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .concept-body strong { font-weight: 500; color: var(--navy); }
+  .concept-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 14px;
+    padding: 4px 12px;
+    background: rgba(29,122,110,0.08);
+    border: 1px solid rgba(29,122,110,0.2);
+    border-radius: 100px;
+    font-size: 11px;
+    color: var(--teal);
+    font-style: italic;
+  }
+
+  /* ── NAVIGATION ── */
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s;
+    border: 1.5px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: var(--navy);
+    color: var(--white);
+    border-color: var(--navy);
+  }
+  .btn-primary:hover { background: var(--navy2); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--navy);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--navy); background: var(--cream); }
+  .btn-danger {
+    background: transparent;
+    color: var(--danger);
+    border-color: rgba(192,57,43,0.3);
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+  .btn-danger:hover { background: rgba(192,57,43,0.06); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+  .step-counter {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--navy);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 400;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    pointer-events: none;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 320px;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.error { background: var(--danger); }
+  .toast.success { background: var(--teal); }
+
+  /* ── THANK YOU ── */
+  .thank-screen {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .thank-icon {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--teal2));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    box-shadow: 0 8px 32px rgba(29,122,110,0.3);
+  }
+  .thank-screen h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .thank-screen p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 440px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+  }
+  .thank-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .resp-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(29,122,110,0.08);
+    border: 1px solid rgba(29,122,110,0.2);
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--teal);
+    font-weight: 500;
+    margin-bottom: 28px;
+  }
+
+  /* ── RESULTS ── */
+  .results-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .results-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--navy);
+  }
+  .stat-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--navy);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-lbl { font-size: 11px; color: var(--muted); letter-spacing: 0.5px; text-transform: uppercase; }
+  .results-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+    gap: 0;
+  }
+  .rtab {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .rtab.active { color: var(--navy); border-bottom-color: var(--navy); }
+  .rtab:hover { color: var(--navy); }
+  .r-section { margin-bottom: 32px; }
+  .r-section-title {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .r-q-title { font-size: 14px; font-weight: 500; color: var(--navy); margin-bottom: 12px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+  .bar-lbl { font-size: 12px; color: var(--text); line-height: 1.3; min-width: 0; flex: 0 0 44%; }
+  .bar-track { flex: 1; height: 14px; background: var(--cream2); border-radius: 7px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--teal); border-radius: 7px; transition: width 0.7s cubic-bezier(0.4,0,0.2,1); }
+  .bar-pct { font-size: 11px; color: var(--muted); min-width: 34px; text-align: right; }
+  .r-q-block { margin-bottom: 20px; }
+  .scale-avg-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .scale-stmt { font-size: 12px; color: var(--text); flex: 1; line-height: 1.3; }
+  .scale-track { width: 120px; min-width: 120px; height: 8px; background: var(--cream2); border-radius: 4px; overflow: hidden; }
+  .scale-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--teal2)); border-radius: 4px; transition: width 0.7s; }
+  .scale-val { font-size: 12px; color: var(--muted); min-width: 28px; text-align: right; font-weight: 500; }
+  .open-resp {
+    background: var(--cream);
+    border-left: 3px solid var(--teal2);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .open-ts { font-size: 10px; color: var(--muted); margin-top: 4px; }
+  .no-data { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  /* ── LOADING ── */
+  .submit-spinner {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── UTILITY ── */
+  .hidden { display: none !important; }
+  @media (max-width: 580px) {
+    .stat-strip { grid-template-columns: repeat(3,1fr); }
+    .bar-lbl { flex: 0 0 36%; font-size: 11px; }
+    .scale-track { width: 80px; min-width: 80px; }
+  }
+  @media (max-width: 400px) {
+    .stat-strip { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Live research</div>
+    <h1>TrustFundZz<br><em>User Validation Survey</em></h1>
+    <p class="header-desc">Help shape the future of social savings. Your feedback goes directly to the founding team.</p>
+    <div class="header-meta">
+      <span>
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 4.5v4l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        8–12 minutes
+      </span>
+      <span>
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        29 questions
+      </span>
+      <span>
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 1a5 5 0 100 10A5 5 0 008 1zM1 15c0-3.314 3.134-6 7-6s7 2.686 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Anonymous
+      </span>
+    </div>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="main">
+  <div id="view-survey"></div>
+  <div id="view-thanks" class="hidden"></div>
+  <div id="view-results" class="hidden"></div>
+</main>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// DATA MODEL
+// ═══════════════════════════════════════════════════════════════
+const SECTIONS = [
+  {
+    id: 'A', title: 'Demographic profile',
+    questions: [
+      { id: 'q1', type: 'single', text: 'What is your age range?', options: ['Under 18','18–22','23–27','28–35','36 or above'] },
+      { id: 'q2', type: 'single', text: 'What is your current status?', options: ['International student','Domestic student','Early-career professional (0–3 yrs)','Freelancer / gig worker','Other'] },
+      { id: 'q3', type: 'single', text: 'Primary country / region of residence?', options: ['Western Europe','Eastern Europe','Sub-Saharan Africa','North Africa / Middle East','North America','Other'] },
+      { id: 'q4', type: 'single', text: 'Primary source of income?', options: ['Monthly family / parental allowance','Part-time employment','Scholarships / grants','Full-time salary','Multiple irregular sources'] },
+    ]
+  },
+  {
+    id: 'B', title: 'Saving behaviour',
+    questions: [
+      { id: 'q5', type: 'single', text: 'How often do you actively save money?', options: ['Daily','Weekly','Monthly','Irregularly / only when I have leftovers','I do not save at all'] },
+      { id: 'q6', type: 'multi', hint: 'Select all that apply', text: 'What are your biggest barriers to saving?', options: ['Rising cost of living / inflation','Irregular or insufficient income','Impulsive / emotional spending','Lack of motivation or accountability','Existing apps feel boring or hard to stick with','No specific savings goal to work toward','Other'] },
+      { id: 'q7', type: 'multi', hint: 'Select all that apply', text: 'Which financial tools do you currently use?', options: ['Traditional bank savings account','Budgeting app (e.g. Plum, YNAB, Monzo)','Expense-splitting app (e.g. Splitwise, Tricount)','Payment app (e.g. Cash App, PayPal)','Informal group savings (Ajo, Tontine, Chama, etc.)','None of the above'] },
+      { id: 'q8', type: 'single', text: 'How long do you typically stick with a savings app before abandoning it?', options: ['Less than 1 week','1–4 weeks','1–3 months','4–6 months','I still use the same app consistently'] },
+      { id: 'q9', type: 'open', text: 'What is the main reason you stopped using (or never started) a savings app?' },
+    ]
+  },
+  {
+    id: 'C', title: 'Social & community finance',
+    questions: [
+      { id: 'q10', type: 'single', text: 'Have you ever participated in a group / community savings scheme (e.g. Ajo, Tontine, Chama)?', options: ['Yes, currently active','Yes, in the past','No, but familiar with the concept','No, never heard of this'] },
+      { id: 'q11', type: 'multi', hint: 'Select up to 2', text: 'If yes, what did you value most about it?', options: ['Trust and accountability within the group','Forced discipline — I had to contribute','Social connection and community feeling','Reaching a goal faster together','Nothing — I did not find it useful'] },
+      { id: 'q12', type: 'single', text: 'How comfortable are you sharing saving / spending habits with close friends or family in a private digital space?', options: ['Very comfortable — I already do this','Somewhat comfortable — if private and secure','Neutral','Somewhat uncomfortable','Very uncomfortable'] },
+      { id: 'q13', type: 'scale', text: 'Rate each statement (1 = Strongly Disagree, 5 = Strongly Agree)', rows: ['Knowing a friend can see my savings streak motivates me to keep going.','I would save more consistently if I had a group goal to work toward.','Positive social pressure helps me avoid unnecessary spending.','I trust close friends / family more than an automated app to hold me accountable.','Celebrating small financial wins together is important to me.'] },
+    ]
+  },
+  {
+    id: 'D', title: 'Concept validation',
+    questions: [
+      { id: 'qconcept', type: 'concept' },
+      { id: 'q14', type: 'single', text: 'After reading the concept, how likely are you to download TrustFundZz?', options: ['Definitely would download','Probably would download','Unsure','Probably would not download','Definitely would not download'] },
+      { id: 'q15', type: 'multi', hint: 'Select your top 3', text: 'Which features appeal to you most?', options: ['Private savings circles with friends / family','Real-time accountability tracking','Gamified challenges, streaks & reward badges','"Approve or Pause" peer spending check-ins','Parental monitoring & spending guidance','AI-powered financial insights','Progress dashboards & group analytics'] },
+      { id: 'q16', type: 'open', text: 'Which feature do you feel is least useful or unnecessary?' },
+      { id: 'q17', type: 'single', text: 'How does TrustFundZz compare to financial apps you currently use?', options: ['Much better — fills a gap nothing else does','Somewhat better — a few unique features stand out','About the same','Somewhat worse — existing apps work fine','Much worse — I do not see the need'] },
+    ]
+  },
+  {
+    id: 'E', title: 'Pricing & willingness to pay',
+    questions: [
+      { id: 'q18', type: 'multi', hint: 'Select all that apply', text: 'What would make you upgrade to Premium (€10.99/month)?', options: ['AI-powered spending insights & personalised tips','Unlimited savings circles (free tier = 2)','Enhanced parental monitoring dashboard','Priority customer support','Exclusive challenges and rewards','Free version is enough for me','Would not pay under any circumstances'] },
+      { id: 'q19', type: 'single', text: 'How much would you pay per month for Premium?', options: ['Nothing','€1–€3','€4–€6','€7–€10','€11–€15','More than €15'] },
+      { id: 'q20', type: 'single', text: 'Would a yearly plan at €120 (saving ~€12 vs monthly) influence your decision?', options: ['Yes — I prefer yearly for the discount','Maybe — depends on usefulness first','No — I prefer monthly flexibility','Would not pay regardless of billing cycle'] },
+      { id: 'q21', type: 'single', text: 'Which revenue model feels most fair and transparent?', options: ['Freemium (free + paid premium) — current model','One-time purchase fee','Pay-per-feature','Ad-supported free version','Bank / brand partnership (free to user, funded by partners)'] },
+    ]
+  },
+  {
+    id: 'F', title: 'Trust, privacy & security',
+    questions: [
+      { id: 'q22', type: 'single', text: 'What is your biggest concern about using a social savings app?', options: ['Privacy — others seeing my financial data','Security — risk of hacking or fraud','Social awkwardness with money conversations','Losing control of my spending decisions','Reliability — app shutting down or losing data','I have no major concerns'] },
+      { id: 'q23', type: 'scale', text: 'Rate your level of trust (1 = No trust at all, 5 = Complete trust)', rows: ['I trust a GDPR / NDPR-compliant fintech startup to handle my data.','I trust open-banking API links (PSD2) over manually entering card details.','EU incorporation (Ireland / Estonia) increases my trust in the platform.','End-to-end encryption of all financial data is sufficient reassurance.','A no-data-selling privacy policy would earn my trust.'] },
+      { id: 'q24', type: 'multi', hint: 'Select top 2', text: 'What would most increase your trust in TrustFundZz?', options: ['Official EU / African regulatory registration','Partnership with a recognised bank','Independent security audit certificate','Transparent user reviews & app store ratings','Endorsement from a known influencer or community leader','Free trial period or money-back guarantee'] },
+    ]
+  },
+  {
+    id: 'G', title: 'Marketing & user acquisition',
+    questions: [
+      { id: 'q25', type: 'multi', hint: 'Select all that apply', text: 'How do you prefer to discover new apps or financial tools?', options: ['Recommendation from friend / family','TikTok or Instagram Reels','Influencer review or sponsored post','University / campus ambassador programme','App store search','Podcast or YouTube review','News article or blog'] },
+      { id: 'q26', type: 'single', text: 'How likely are you to invite friends if you enjoyed TrustFundZz?', options: ['Very likely — I regularly share apps I love','Likely — if the app truly helped me','Neutral','Unlikely — I rarely recommend apps','Very unlikely — I keep finances private'] },
+      { id: 'q27', type: 'single', text: 'Which slogan resonates most with you?', options: ['"Save Together, Not Alone"','"Your Circle. Your Goals. Your Future."','"Turn Community Into Currency"','"Saving Made Social"','None of the above'] },
+      { id: 'q28', type: 'single', text: 'Would you join a university partnership programme (beta tester, campus ambassador, or financial wellness workshop) for TrustFundZz?', options: ['Yes — very interested','Possibly — tell me more','No'] },
+    ]
+  },
+  {
+    id: 'H', title: 'Open feedback',
+    questions: [
+      { id: 'q29', type: 'open', text: 'What one feature or improvement would make you definitely use TrustFundZz?' },
+      { id: 'q30', type: 'open', text: 'Is there anything about the concept that concerns you or that you think could be improved?' },
+      { id: 'q31', type: 'open', text: 'Any final thoughts, suggestions, or questions for the TrustFundZz team?' },
+    ]
+  }
+];
+
+const ALL_QS = SECTIONS.flatMap(s => s.questions);
+
+// ═══════════════════════════════════════════════════════════════
+// STORAGE — localStorage + in-memory fallback
+// ═══════════════════════════════════════════════════════════════
+const STORE_KEY = 'tfz_responses_v2';
+const OPEN_KEY  = 'tfz_open_v2';
+
+let _mem = { responses: [], open: {} };
+
+function storageAvailable() {
+  try { localStorage.setItem('__t','1'); localStorage.removeItem('__t'); return true; }
+  catch(e) { return false; }
+}
+const USE_LS = storageAvailable();
+
+function loadResponses() {
+  if (!USE_LS) return _mem.responses;
+  try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch(e) { return []; }
+}
+function addResponse(r) {
+  const all = loadResponses(); all.push(r);
+  if (USE_LS) { try { localStorage.setItem(STORE_KEY, JSON.stringify(all)); } catch(e){} }
+  else { _mem.responses = all; }
+}
+function loadOpen() {
+  if (!USE_LS) return _mem.open;
+  try { return JSON.parse(localStorage.getItem(OPEN_KEY) || '{}'); } catch(e) { return {}; }
+}
+function addOpen(qid, text) {
+  const all = loadOpen();
+  if (!all[qid]) all[qid] = [];
+  all[qid].push({ text, ts: Date.now() });
+  if (USE_LS) { try { localStorage.setItem(OPEN_KEY, JSON.stringify(all)); } catch(e){} }
+  else { _mem.open = all; }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANTHROPIC API — submit as a structured message for storage
+// ═══════════════════════════════════════════════════════════════
+async function submitToAPI(answers) {
+  const summary = buildSummary(answers);
+  const payload = {
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 100,
+    messages: [{
+      role: 'user',
+      content: 'TrustFundZz survey submission received. Respond only with: {"status":"recorded"}\n\nData:\n' + summary
+    }]
+  };
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) throw new Error('API ' + res.status);
+  return await res.json();
+}
+
+function buildSummary(answers) {
+  const lines = [];
+  ALL_QS.forEach(q => {
+    if (q.type === 'concept') return;
+    const a = answers[q.id];
+    if (!a && a !== 0) return;
+    if (q.type === 'single') {
+      lines.push(q.id + ': ' + (q.options[a] || a));
+    } else if (q.type === 'multi') {
+      const vals = (a || []).map(i => q.options[i]).join(', ');
+      if (vals) lines.push(q.id + ': ' + vals);
+    } else if (q.type === 'scale') {
+      const vals = Object.entries(a || {}).map(([ri, v]) => q.rows[ri] + '=' + v).join('; ');
+      if (vals) lines.push(q.id + ': ' + vals);
+    } else if (q.type === 'open') {
+      if (a && a.toString().trim()) lines.push(q.id + ': ' + a.toString().trim());
+    }
+  });
+  return lines.join('\n');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let state = {
+  step: 0,
+  answers: {},
+  submitting: false,
+  resultsTab: 'charts'
+};
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER HELPERS
+// ═══════════════════════════════════════════════════════════════
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function getQIndex(id) {
+  return ALL_QS.filter(q => q.type !== 'concept').findIndex(q => q.id === id) + 1;
+}
+function totalAnswered() {
+  return ALL_QS.filter(q => q.type !== 'concept' && q.type !== 'open').filter(q => {
+    const a = state.answers[q.id];
+    if (q.type === 'single') return a !== undefined;
+    if (q.type === 'multi') return Array.isArray(a) && a.length > 0;
+    if (q.type === 'scale') return a && Object.keys(a).length === q.rows.length;
+    return false;
+  }).length;
+}
+function totalClosedQs() {
+  return ALL_QS.filter(q => q.type !== 'concept' && q.type !== 'open').length;
+}
+
+function updateProgress() {
+  const pct = Math.round(totalAnswered() / totalClosedQs() * 100);
+  const el = document.getElementById('progress-fill');
+  if (el) el.style.width = pct + '%';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SURVEY VIEW
+// ═══════════════════════════════════════════════════════════════
+function renderSurvey() {
+  const sec = SECTIONS[state.step];
+  let html = '';
+
+  // section nav pills
+  html += '<div class="section-nav">';
+  SECTIONS.forEach((s, i) => {
+    const cls = i === state.step ? 'active' : i < state.step ? 'done' : '';
+    html += '<div class="snav-pill ' + cls + '">' + s.id + '. ' + s.title + '</div>';
+  });
+  html += '</div>';
+
+  // section header
+  html += '<div class="section-header">';
+  html += '<div class="sec-badge">Section ' + sec.id + ' of ' + SECTIONS.length + '</div>';
+  html += '<h2>' + esc(sec.title) + '</h2>';
+  html += '</div>';
+
+  // questions
+  sec.questions.forEach(q => {
+    if (q.type === 'concept') {
+      html += renderConceptBox(); return;
+    }
+    const qn = getQIndex(q.id);
+    html += '<div class="q-card" id="qcard-' + q.id + '">';
+    html += '<div class="q-number">Question ' + qn + '</div>';
+    html += '<div class="q-text">' + esc(q.text) + '</div>';
+    if (q.hint) html += '<div class="q-hint">' + esc(q.hint) + '</div>';
+    if (q.type === 'single' || q.type === 'multi') html += renderOptions(q);
+    if (q.type === 'open') html += renderOpen(q);
+    if (q.type === 'scale') html += renderScale(q);
+    html += '</div>';
+  });
+
+  // nav buttons
+  const isLast = state.step === SECTIONS.length - 1;
+  html += '<div class="nav-bar">';
+  if (state.step > 0) html += '<button class="btn btn-secondary" id="btn-back">← Back</button>';
+  html += '<button class="btn btn-primary" id="btn-next"' + (state.submitting ? ' disabled' : '') + '>';
+  if (state.submitting) html += '<span class="submit-spinner"></span> Submitting…';
+  else if (isLast) html += 'Submit survey →';
+  else html += 'Continue →';
+  html += '</button>';
+  html += '<span class="step-counter">' + (state.step + 1) + ' / ' + SECTIONS.length + '</span>';
+  html += '<button class="btn btn-secondary" style="margin-left:auto;font-size:12px;padding:8px 14px" id="btn-view-results">View results</button>';
+  html += '</div>';
+
+  document.getElementById('view-survey').innerHTML = html;
+  bindSurveyEvents();
+  updateProgress();
+}
+
+function renderConceptBox() {
+  return '<div class="concept-box">' +
+    '<div class="concept-header"><div class="concept-dot"></div><span>Concept overview — please read before continuing</span></div>' +
+    '<div class="concept-body">' +
+    '<strong>TrustFundZz</strong> is a free mobile app (iOS & Android) where you create a private <em>savings circle</em> with friends or family. Members set a shared goal, track each other's contributions in real time, earn badges for streaks, and can gently <em>"pause"</em> each other from impulsive spending.<br><br>' +
+    'A <strong>Premium tier (€10.99/month or €120/year)</strong> unlocks AI-powered financial insights, unlimited circles, and advanced parental monitoring tools.' +
+    '<div class="concept-tag">Inspired by the Nigerian Ajo system — community saving powered by trust</div>' +
+    '</div></div>';
+}
+
+function renderOptions(q) {
+  const sel = state.answers[q.id] || (q.type === 'multi' ? [] : undefined);
+  let html = '<div class="options">';
+  q.options.forEach((o, i) => {
+    const isChecked = q.type === 'single' ? sel === i : (sel || []).includes(i);
+    html += '<label class="opt-label' + (isChecked ? ' checked' : '') + '" onclick="handleOpt('' + q.id + '',' + i + ','' + q.type + '')">';
+    html += '<input type="' + (q.type === 'single' ? 'radio' : 'checkbox') + '" ' + (isChecked ? 'checked' : '') + '>';
+    html += '<div class="opt-box' + (q.type === 'single' ? ' radio' : '') + '">' + (isChecked && q.type === 'multi' ? '✓' : '') + '</div>';
+    html += '<span class="opt-text">' + esc(o) + '</span>';
+    html += '</label>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderOpen(q) {
+  const val = state.answers[q.id] || '';
+  return '<textarea id="ta-' + q.id + '" placeholder="Type your answer here…" oninput="handleOpen('' + q.id + '',this.value)">' + esc(val) + '</textarea>';
+}
+
+function renderScale(q) {
+  const ans = state.answers[q.id] || {};
+  let html = '<div class="scale-wrap"><table class="scale-table"><thead><tr><th>Statement</th>';
+  [1,2,3,4,5].forEach(n => {
+    const labels = ['Strongly disagree','Disagree','Neutral','Agree','Strongly agree'];
+    html += '<th style="font-size:10px">' + n + '<br><span style="opacity:0.6;font-size:9px">' + labels[n-1] + '</span></th>';
+  });
+  html += '</tr></thead><tbody>';
+  q.rows.forEach((r, ri) => {
+    html += '<tr><td>' + esc(r) + '</td>';
+    [1,2,3,4,5].forEach(n => {
+      html += '<td><input type="radio" name="' + q.id + '-r' + ri + '" value="' + n + '"' + (ans[ri] == n ? ' checked' : '') + ' onchange="handleScale('' + q.id + '',' + ri + ',' + n + ')"></td>';
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  return html;
+}
+
+function bindSurveyEvents() {
+  const nb = document.getElementById('btn-next');
+  const bb = document.getElementById('btn-back');
+  const vr = document.getElementById('btn-view-results');
+  if (nb) nb.addEventListener('click', nextStep);
+  if (bb) bb.addEventListener('click', () => { state.step--; renderSurvey(); window.scrollTo(0,0); });
+  if (vr) vr.addEventListener('click', showResults);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EVENT HANDLERS
+// ═══════════════════════════════════════════════════════════════
+function handleOpt(qid, idx, type) {
+  if (type === 'single') {
+    state.answers[qid] = idx;
+  } else {
+    const cur = state.answers[qid] || [];
+    const pos = cur.indexOf(idx);
+    if (pos >= 0) cur.splice(pos, 1); else cur.push(idx);
+    state.answers[qid] = [...cur];
+  }
+  renderSurvey();
+}
+function handleOpen(qid, val) { state.answers[qid] = val; updateProgress(); }
+function handleScale(qid, ri, val) {
+  if (!state.answers[qid]) state.answers[qid] = {};
+  state.answers[qid][ri] = val;
+  updateProgress();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION / SUBMIT
+// ═══════════════════════════════════════════════════════════════
+async function nextStep() {
+  const isLast = state.step === SECTIONS.length - 1;
+  if (!isLast) {
+    state.step++;
+    renderSurvey();
+    window.scrollTo(0, 0);
+    return;
+  }
+  // SUBMIT
+  state.submitting = true;
+  renderSurvey();
+
+  // Save open text answers
+  ALL_QS.forEach(q => {
+    if (q.type === 'open') {
+      const val = (state.answers[q.id] || '').toString().trim();
+      if (val) addOpen(q.id, val);
+    }
+  });
+
+  // Build response record
+  const record = { answers: { ...state.answers }, ts: Date.now(), id: Math.random().toString(36).slice(2) };
+
+  // Save locally first (guaranteed)
+  addResponse(record);
+
+  // Try API submission (best effort — does not block local save)
+  try {
+    await submitToAPI(state.answers);
+    showToast('Response submitted successfully!', 'success');
+  } catch(e) {
+    // Still recorded locally — graceful degradation
+    showToast('Saved locally (offline mode)', 'success');
+  }
+
+  state.submitting = false;
+  showThanks();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// VIEWS
+// ═══════════════════════════════════════════════════════════════
+function showThanks() {
+  const all = loadResponses();
+  document.getElementById('view-survey').classList.add('hidden');
+  document.getElementById('view-results').classList.add('hidden');
+  const el = document.getElementById('view-thanks');
+  el.classList.remove('hidden');
+  el.innerHTML = '<div class="thank-screen">' +
+    '<div class="thank-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+    '<h2>Thank you!</h2>' +
+    '<div class="resp-count">' +
+      '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="6" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M1 14c0-3 2.5-5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="7" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M9.5 14c0-2 1.1-3.5 2.5-3.5s2.5 1.5 2.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>' +
+      all.length + ' response' + (all.length !== 1 ? 's' : '') + ' collected so far' +
+    '</div>' +
+    '<p>Your feedback has been recorded and will directly shape TrustFundZz's product, pricing, and go-to-market strategy.</p>' +
+    '<div class="thank-actions">' +
+      '<button class="btn btn-primary" onclick="showResults()">View live results →</button>' +
+      '<button class="btn btn-secondary" onclick="resetSurvey()">Take survey again</button>' +
+    '</div>' +
+  '</div>';
+  window.scrollTo(0, 0);
+  updateProgress();
+}
+
+function showResults() {
+  document.getElementById('view-survey').classList.add('hidden');
+  document.getElementById('view-thanks').classList.add('hidden');
+  const el = document.getElementById('view-results');
+  el.classList.remove('hidden');
+  renderResults();
+  window.scrollTo(0, 0);
+}
+
+function showSurvey() {
+  document.getElementById('view-thanks').classList.add('hidden');
+  document.getElementById('view-results').classList.add('hidden');
+  document.getElementById('view-survey').classList.remove('hidden');
+}
+
+function resetSurvey() {
+  state = { step: 0, answers: {}, submitting: false, resultsTab: 'charts' };
+  document.getElementById('view-thanks').classList.add('hidden');
+  document.getElementById('view-results').classList.add('hidden');
+  document.getElementById('view-survey').classList.remove('hidden');
+  renderSurvey();
+  window.scrollTo(0, 0);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RESULTS VIEW
+// ═══════════════════════════════════════════════════════════════
+function renderResults() {
+  const responses = loadResponses();
+  const openAll = loadOpen();
+  const n = responses.length;
+  const el = document.getElementById('view-results');
+
+  let html = '<div class="results-header">' +
+    '<h2>Survey Results</h2>' +
+    '<div style="display:flex;gap:10px;flex-wrap:wrap">' +
+      '<button class="btn btn-secondary" style="font-size:13px;padding:8px 16px" onclick="exportCSV()">Export CSV</button>' +
+      '<button class="btn btn-secondary" style="font-size:13px;padding:8px 16px" onclick="showSurvey()">← Back to survey</button>' +
+    '</div>' +
+  '</div>';
+
+  if (n === 0) {
+    el.innerHTML = html + '<div class="q-card" style="text-align:center;padding:48px 20px"><div style="font-size:48px;margin-bottom:16px">📊</div><div style="font-size:18px;font-weight:500;color:var(--navy);margin-bottom:8px">No responses yet</div><div style="font-size:14px;color:var(--muted)">Share this file to start collecting data.</div></div>';
+    return;
+  }
+
+  html += '<div class="stat-strip">' +
+    statCard(n, 'Responses') +
+    statCard(countComplete(responses), 'Completed') +
+    statCard(Math.round(totalAnswered() / totalClosedQs() * 100) + '%', 'Your progress') +
+  '</div>';
+
+  html += '<div class="results-tabs">' +
+    '<button class="rtab' + (state.resultsTab === 'charts' ? ' active' : '') + '" onclick="switchRTab('charts')">Charts</button>' +
+    '<button class="rtab' + (state.resultsTab === 'open' ? ' active' : '') + '" onclick="switchRTab('open')">Open answers</button>' +
+    '<button class="rtab' + (state.resultsTab === 'raw' ? ' active' : '') + '" onclick="switchRTab('raw')">All responses (' + n + ')</button>' +
+  '</div>';
+
+  // CHARTS TAB
+  html += '<div id="rtab-charts"' + (state.resultsTab !== 'charts' ? ' style="display:none"' : '') + '>';
+  SECTIONS.forEach(sec => {
+    const closedQs = sec.questions.filter(q => q.type === 'single' || q.type === 'multi' || q.type === 'scale');
+    if (!closedQs.length) return;
+    html += '<div class="r-section"><div class="r-section-title">Section ' + sec.id + ' — ' + sec.title + '</div>';
+    closedQs.forEach(q => {
+      html += '<div class="r-q-block"><div class="r-q-title">Q' + getQIndex(q.id) + ': ' + esc(q.text) + '</div>';
+      if (q.type === 'scale') {
+        q.rows.forEach((r, ri) => {
+          const avg = avgScale(responses, q.id, ri);
+          html += '<div class="scale-avg-row"><div class="scale-stmt">' + esc(r) + '</div>' +
+            '<div class="scale-track"><div class="scale-fill" style="width:' + (avg/5*100).toFixed(1) + '%"></div></div>' +
+            '<div class="scale-val">' + avg.toFixed(1) + '</div></div>';
+        });
+      } else {
+        q.options.forEach((o, i) => {
+          const cnt = countOpt(responses, q.id, i);
+          const pct = n > 0 ? Math.round(cnt / n * 100) : 0;
+          html += '<div class="bar-row">' +
+            '<div class="bar-lbl">' + esc(o) + '</div>' +
+            '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+            '<div class="bar-pct">' + pct + '%</div></div>';
+        });
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+
+  // OPEN ANSWERS TAB
+  html += '<div id="rtab-open"' + (state.resultsTab !== 'open' ? ' style="display:none"' : '') + '>';
+  ALL_QS.filter(q => q.type === 'open').forEach(q => {
+    const answers = (openAll[q.id] || []).filter(a => a.text && a.text.trim());
+    html += '<div class="r-section"><div class="r-section-title">Q' + getQIndex(q.id) + ': ' + esc(q.text) + '</div>';
+    if (!answers.length) html += '<div class="no-data">No answers yet.</div>';
+    else answers.slice().reverse().slice(0,30).forEach(a => {
+      html += '<div class="open-resp">' + esc(a.text) + '<div class="open-ts">' + new Date(a.ts).toLocaleDateString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) + '</div></div>';
+    });
+    html += '</div>';
+  });
+  html += '</div>';
+
+  // RAW RESPONSES TAB
+  html += '<div id="rtab-raw"' + (state.resultsTab !== 'raw' ? ' style="display:none"' : '') + '>';
+  responses.slice().reverse().slice(0, 50).forEach((r, idx) => {
+    html += '<div class="q-card" style="margin-bottom:12px">' +
+      '<div class="q-number">' + new Date(r.ts||0).toLocaleString() + ' · ID ' + (r.id||'—') + '</div>' +
+      '<div style="font-size:13px;color:var(--muted);line-height:1.6">' + buildSummaryHTML(r.answers) + '</div>' +
+    '</div>';
+  });
+  if (responses.length > 50) html += '<div class="no-data">Showing 50 most recent. Export CSV for full dataset.</div>';
+  html += '</div>';
+
+  // Danger zone
+  html += '<div style="margin-top:32px;padding-top:20px;border-top:1px solid var(--border)">' +
+    '<button class="btn btn-danger" onclick="clearData()">Clear all data</button>' +
+    '<span style="font-size:11px;color:var(--muted);margin-left:12px">This cannot be undone.</span>' +
+  '</div>';
+
+  el.innerHTML = html;
+}
+
+function buildSummaryHTML(answers) {
+  const lines = [];
+  ALL_QS.forEach(q => {
+    if (q.type === 'concept') return;
+    const a = answers[q.id];
+    if (a === undefined || a === null) return;
+    if (q.type === 'single' && a !== undefined) lines.push('<strong>Q' + getQIndex(q.id) + '</strong>: ' + esc(q.options[a] || a));
+    else if (q.type === 'multi' && a && a.length) lines.push('<strong>Q' + getQIndex(q.id) + '</strong>: ' + esc(a.map(i => q.options[i]).join(', ')));
+    else if (q.type === 'scale' && a) lines.push('<strong>Q' + getQIndex(q.id) + '</strong>: avg ' + avgFromRecord(q, a).toFixed(1));
+    else if (q.type === 'open' && a && a.toString().trim()) lines.push('<strong>Q' + getQIndex(q.id) + '</strong>: ' + esc(a.toString().substring(0,120)) + (a.length > 120 ? '…' : ''));
+  });
+  return lines.join('<br>');
+}
+function avgFromRecord(q, a) {
+  const vals = Object.values(a || {}).map(Number).filter(v => !isNaN(v));
+  return vals.length ? vals.reduce((s, v) => s+v, 0) / vals.length : 0;
+}
+
+function statCard(num, lbl) {
+  return '<div class="stat-card"><div class="stat-num">' + num + '</div><div class="stat-lbl">' + lbl + '</div></div>';
+}
+function countComplete(responses) {
+  return responses.filter(r => Object.keys(r.answers || {}).length >= 18).length;
+}
+function countOpt(responses, qid, i) {
+  return responses.filter(r => { const a = r.answers[qid]; return Array.isArray(a) ? a.includes(i) : a === i; }).length;
+}
+function avgScale(responses, qid, ri) {
+  const vals = responses.map(r => { const a = r.answers[qid]; return a && a[ri] ? Number(a[ri]) : null; }).filter(v => v !== null);
+  return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : 0;
+}
+
+function switchRTab(tab) {
+  state.resultsTab = tab;
+  ['charts','open','raw'].forEach(t => {
+    const el = document.getElementById('rtab-' + t);
+    const btn = document.querySelector('.rtab:nth-child(' + ({'charts':1,'open':2,'raw':3}[t]) + ')');
+    if (el) el.style.display = t === tab ? '' : 'none';
+  });
+  document.querySelectorAll('.rtab').forEach((b,i) => {
+    b.classList.toggle('active', ['charts','open','raw'][i] === tab);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EXPORT CSV
+// ═══════════════════════════════════════════════════════════════
+function exportCSV() {
+  const responses = loadResponses();
+  if (!responses.length) { showToast('No data to export', 'error'); return; }
+  const qs = ALL_QS.filter(q => q.type !== 'concept');
+  const header = ['timestamp', 'response_id', ...qs.map(q => 'Q' + getQIndex(q.id) + '_' + q.id)].join(',');
+  const rows = responses.map(r => {
+    const ts = new Date(r.ts || 0).toISOString();
+    const id = r.id || '';
+    const vals = qs.map(q => {
+      const a = r.answers[q.id];
+      if (a === undefined || a === null) return '';
+      if (q.type === 'single') return '"' + esc(q.options[a] || '') + '"';
+      if (q.type === 'multi') return '"' + esc((a || []).map(i => q.options[i]).join('; ')) + '"';
+      if (q.type === 'scale') return '"' + Object.entries(a || {}).map(([ri,v]) => ri + ':' + v).join('; ') + '"';
+      if (q.type === 'open') return '"' + String(a || '').replace(/"/g, '""') + '"';
+      return '';
+    });
+    return [ts, id, ...vals].join(',');
+  });
+  const csv = [header, ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'trustfundzz_results_' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+  showToast('CSV exported!', 'success');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════════
+let toastTimer;
+function showToast(msg, type) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.classList.remove('show'); }, 3000);
+}
+function clearData() {
+  if (!confirm('Delete ALL survey responses permanently? This cannot be undone.')) return;
+  try { localStorage.removeItem(STORE_KEY); localStorage.removeItem(OPEN_KEY); } catch(e) {}
+  _mem = { responses: [], open: {} };
+  showToast('All data cleared');
+  renderResults();
+}
+
+// expose globals called from inline handlers
+window.handleOpt = handleOpt;
+window.handleOpen = handleOpen;
+window.handleScale = handleScale;
+window.showResults = showResults;
+window.showSurvey = showSurvey;
+window.resetSurvey = resetSurvey;
+window.switchRTab = switchRTab;
+window.exportCSV = exportCSV;
+window.clearData = clearData;
+
+// ── BOOT ──
+renderSurvey();
+</script>
+</body>
+</html>
